@@ -7,6 +7,13 @@ namespace SamIT\Compress;
 class Numbers
 {
     /**
+     * @var string
+     */
+    public $factorSeparator = 'X';
+    public $entrySeparator = "N";
+    public $rangeSeparator = "T";
+
+    /**
      * Compresses an array of numbers, keys and ordering are ignored.
      * @param int[] $numbers
      * @return string A string containing the compressed numbers.
@@ -41,14 +48,14 @@ class Numbers
                 $c++;
             }
             if ($c != $prevC) {
-                $result .= "$c|";
+                $result .= "$c{$this->factorSeparator}";
             }
 
             $result .= ($r[0] - $c * 100);
             if (isset($r[1])) {
-                $result .= "-" . (end($r) - $c * 100);
+                $result .= $this->rangeSeparator . (end($r) - $c * 100);
             }
-            $result .= ",";
+            $result .= $this->entrySeparator;
             $prevC = $c;
         }
         $result = substr($result, 0, -1);
@@ -66,13 +73,13 @@ class Numbers
         // Expand a again.
         $expanded = [];
         $c = 0;
-        foreach(explode(',', $string) as $range) {
-            $parts = explode('|', $range);
+        foreach(explode($this->entrySeparator, $string) as $range) {
+            $parts = explode($this->factorSeparator, $range);
             if (count($parts) === 2) {
                 $c = $parts[0];
                 $range = $parts[1];
             }
-            $parts = explode('-', $range);
+            $parts = explode($this->rangeSeparator , $range);
             $expanded[] = $c * 100 + $parts[0];
             if (count($parts) === 2) {
                 for($i = $parts[0] + 1; $i <= $parts[1]; $i++) {
