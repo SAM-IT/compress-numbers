@@ -3,7 +3,7 @@ Specialized library to compress a list of numbers for use in REST URLs
 
 # Use case
 When having multiple IDs in URLs and alternatives like using `POST` are not preferable this library can help you by compressing arrays of numbers.
-The performance of compression is depends on the types of numbers found in the array.
+The performance of compression depends on the types of numbers found in the array.
 
 ## Algorithm.
 - Sort the numbers
